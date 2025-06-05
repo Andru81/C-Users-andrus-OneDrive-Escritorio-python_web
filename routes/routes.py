@@ -11,7 +11,7 @@ from sevices.venta_sevice import ventaService
 
 
 
-routes=APIRouter(prefix="/user", tags=["Users"])
+routes=APIRouter(prefix="/user", tags=["User"])
 routes_e=APIRouter(prefix="/empleado", tags=["empleado"])
 routes_v=APIRouter(prefix="/venta", tags=["venta"])
 
@@ -88,5 +88,35 @@ async def change_empleado_status(empleado_id: str):
 
 async def update_empleado(empleado_id: int, empleado_data: empleado):
     return await empleado_service.update_empleado(empleado_id, empleado_data)
+
+@routes_v.get("/get-venta/")
+async def get_all_venta():
+    return await venta_service.get_venta()
+
+@routes_v.get("/get-venta/{id_venta}")
+async def get_venta(id_venta: str):
+    return await empleado_service.get_venta(id_venta)
+
+@routes_v.post("venta/create-venta/")
+async def create_venta(venta: venta):
+    return await venta_service.create_venta(venta)
+
+@routes.patch("/change-venta/")
+async def change_venta(id: str, new_venta: str):
+    return await venta_service.change_venta(id, new_venta)
+
+@routes.patch("/inactivate/{venta_id}")
+async def inactivate_venta(venta_id: str):
+    return await venta_service.inactivate_venta(venta_id)
+
+@routes.patch("/change-status/{venta_id}")
+async def change_venta_status(venta_id: str):
+    return await venta_service.toggle_venta_status(venta_id)
+
+@routes.put("/update-venta/{venta_id}")
+
+async def update_venta(venta_id: int, venta_data: venta):
+    return await venta_service.update_venta(venta_id, venta_data)
+
 
 
